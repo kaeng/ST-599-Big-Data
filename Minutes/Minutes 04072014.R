@@ -50,7 +50,7 @@ Survey questions avaliable online here: # Note: this is different than the first
 
   * How to electricity and gas costs compare? (Oregon? Oregon vs. California?)
   
-  -Fangwu's questions
+  -#Fangwu's questions
   Page 11. Question 48: person’s total income
   Aggregating question 48 for all persons of a household.
   
@@ -61,6 +61,14 @@ Survey questions avaliable online here: # Note: this is different than the first
     (e.g. cluster analysis)?
 
   I’m not sure these questions are doable because most of questions are discrete values. 
+
+
+  - #Katie's question 
+  Rudimentary estimation of divorce rates in Oregon vs California
+  using questions 20 and 22 on page 9 of the survey. Notice that we may have to assume that
+  if a respondant is currently married, then the marriage will not dissolve. Also, we would
+  weight each response evenly, not accounting for within person 'prob of divorce'. (If a person
+  has married multiple times, they will have multiple contributions to the observed proportion.)
 
 
 
