@@ -49,6 +49,16 @@ Survey questions avaliable online here: # Note: this is different than the first
   or"no charge or electricity not used" options sected.)
 
   * How to electricity and gas costs compare? (Oregon? Oregon vs. California?)
+  
+  -Fangwu's questions
+  Page 11. Question 48: person’s total income
+  Aggregating question 48 for all persons of a household.
+  
+  * Is there any relationship between total household income and a collection of housing questions including Q.8 and 9 (P.5, Housing), Q.12 and 13 (P.6, Housing)? Regression?
+  * Or is there any geographic patterns for these social determinants by using statistical tests (e.g. cluster analysis)?
+
+  I’m not sure these questions are doable because most of questions are discrete values. 
+
 
 
 #4) Started drafting Team Expectations contract.
