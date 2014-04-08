@@ -55,7 +55,8 @@ Survey questions avaliable online here: # Note: this is different than the first
   Aggregating question 48 for all persons of a household.
   
   * Is there any relationship between total household income and a collection of housing questions including 
-    Q.8 and 9 (P.5, Housing), Q.12 and 13 (P.6, Housing)? Regression?
+    Q.8 (basic features such as running water) and 9 (usage of computers)(page 5, Housing), Q.12 (# of vehicles)
+    and 13 (fuel for heating) (page 6, Housing)? Regression?
   * Or is there any geographic patterns for these social determinants by using statistical tests 
     (e.g. cluster analysis)?
 
