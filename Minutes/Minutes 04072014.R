@@ -71,6 +71,14 @@ Survey questions avaliable online here: # Note: this is different than the first
   has married multiple times, they will have multiple contributions to the observed proportion.)
 
 
+  - #Lu's question
+  Question 13: Which Fuel is used most for heating this house, apartment, or mobile home? 
+  
+  * Combine with the information of building type(question 1),we may think about whether there is a relationship 
+  between type of fuel used and type of building they are living. 
+  * Also, is there any relationship between where they live and the type of fuel used? The coast area and inner 
+  land may have different choices, and we may select two or three states to make such comparison. 
+
 
 #4) Started drafting Team Expectations contract.
 Draft in github as .R file.
