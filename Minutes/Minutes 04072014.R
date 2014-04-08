@@ -78,7 +78,9 @@ Survey questions avaliable online here: # Note: this is different than the first
   between type of fuel used and type of building they are living. 
   * Also, is there any relationship between where they live and the type of fuel used? The coast area and inner 
   land may have different choices, and we may select two or three states to make such comparison. 
-
+  * Moreover, combine with the information of acres of the building(question 4), we may consider is there any 
+  relationship between these two. For example, if they are living in a pretty big house, they may choose cheaper 
+  fuel to save money. 
 
 #4) Started drafting Team Expectations contract.
 Draft in github as .R file.
