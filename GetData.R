@@ -7,6 +7,7 @@
 download.file("http://www2.census.gov/acs2012_5yr/pums/csv_hor.zip", 
               destfile = "csv_hor.zip")
 
+# test
 
 
 # === unzip and get file === #
