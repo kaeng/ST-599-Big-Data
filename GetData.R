@@ -1,4 +1,4 @@
-# Code to download Oregon and California housing data 2008-2012.
+# Code to download Oregon housing data 2008-2012.
 
 # ==== Setwd to the location where you would like data saved  ==== #
 
@@ -6,8 +6,6 @@
 # download OR 2012_5yr
 download.file("http://www2.census.gov/acs2012_5yr/pums/csv_hor.zip", 
               destfile = "csv_hor.zip")
-
-# testss
 
 
 # === unzip and get file === #
