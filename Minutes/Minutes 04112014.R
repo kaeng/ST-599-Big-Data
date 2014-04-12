@@ -101,7 +101,7 @@ have also looked this up incorrectly. CHECK!
 
 Type code to download assigned files, as we have on the GetData.R file posted
 today, 4/11/14. Type your code in the space allocated to you. Have this completed
-by Monday, 4/14/14.
+by Monday, 4/14/14. Only read in the variables listed in the above section.
 
 http://www.census.gov/acs/www/data_documentation/pums_data/
 
