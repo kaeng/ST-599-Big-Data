@@ -1,4 +1,4 @@
-# Code to download Oregon housing data 2008-2012.
+# Code to download Oregon housing data 2000-2012.
 
 # ==== Setwd to the location where you would like data saved  ==== #
 
