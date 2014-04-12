@@ -59,6 +59,8 @@ have also looked this up incorrectly. CHECK!
             (e.g., 1086024 indicates measurement was taken in 2008)
     - NOTE: Older data files may not have this same variable name
             (e.g., for 2000 - 2002, this variable name is ADJUST)
+    - NOTE: This will be an important identifying number, since early years (e.g., 2000,2001)
+            recycle the same serial numbers, however, no two years have the same ADJINC.
   # =============================================================================
   3) HINCP (in HOUSING data file - 54th column):
       "Household income (past 12 months) 
