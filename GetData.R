@@ -35,25 +35,29 @@ por_seven <- read.csv(unz("csv_porsev.zip", "ss07por.csv"),stringsAsFactors = FA
 
 ## LU
 # download OR 2004 housing #
-download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_hor.zip", destfile = "csv_hor_2004.zip")
+download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_hor.zip",
+              destfile = "csv_hor_2004.zip")
 unzip("csv_hor_2004.zip", list = TRUE)
 hor_2004 <- read.csv(unz("csv_hor_2004.zip", "ss04hor.csv"),stringsAsFactors = FALSE)[,c(2,9,50)]
 
 
 # download OR 2004 personal #
-download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_por.zip", destfile = "csv_por_2004.zip")
+download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_por.zip",
+              destfile = "csv_por_2004.zip")
 unzip("csv_por_2004.zip", list = TRUE)
 por_2004 <- read.csv(unz("csv_por_2004.zip", "ss04por.csv"),stringsAsFactors = FALSE)[,c(4,6,59,60)]
 
 
 # download OR 2003 housing #
-download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_hor.zip", destfile = "csv_hor_2003.zip")
+download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_hor.zip",
+              destfile = "csv_hor_2003.zip")
 unzip("csv_hor_2003.zip", list = TRUE)
 hor_2003 <- read.csv(unz("csv_hor_2003.zip", "ss03hor.csv"),stringsAsFactors = FALSE)[,c(2,9,50)]
 
 
 # download OR 2003 personal #
-download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_por.zip", destfile = "csv_por_2003.zip")
+download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_por.zip",
+              destfile = "csv_por_2003.zip")
 unzip("csv_por_2003.zip", list = TRUE)
 por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,5,59,60)]
 
@@ -62,6 +66,30 @@ por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = F
 
 
 ## KATIE
+
+# download OR 2002 housing #
+download.file("http://www2.census.gov/acs/downloads/pums/2002/csv_hor.zip", destfile = "csv_hor_2002.zip")
+unzip("csv_hor_2002.zip", list = TRUE)
+hor_2002 <- read.csv(unz("csv_hor_2002.zip", "ss02hor.csv"),stringsAsFactors = FALSE)[,c(2,9,56)]
+#e.g., match("SERIALNO",colnames(hor_2002))
+# "SERIALNO" "ADJUST"   "HINCP"
+
+# download OR 2002 personal #
+download.file("http://www2.census.gov/acs/downloads/pums/2002/csv_por.zip", destfile = "csv_por_2002.zip")
+unzip("csv_por_2002.zip", list = TRUE)
+por_2002 <- read.csv(unz("csv_por_2002.zip", "ss02por.csv"),stringsAsFactors = FALSE)[,c(3,56,57)]
+# "SERIALNO" "WKHP"     "WKL"
+
+# download OR 2001 housing #
+download.file("http://www2.census.gov/acs/downloads/pums/2001/csv_hor.zip", destfile = "csv_hor_2001.zip")
+unzip("csv_hor_2001.zip", list = TRUE)
+hor_2001 <- read.csv(unz("csv_hor_2001.zip", "ss01hor.csv"),stringsAsFactors = FALSE)[,c(2,9,56)]
+
+
+# download OR 2001 personal #
+download.file("http://www2.census.gov/acs/downloads/pums/2001/csv_por.zip", destfile = "csv_por_2001.zip")
+unzip("csv_por_2001.zip", list = TRUE)
+por_2001 <- read.csv(unz("csv_por_2001.zip", "ss01por.csv"),stringsAsFactors = FALSE)[,c(3,56,57)]
 
 
 
