@@ -34,6 +34,7 @@ por_seven <- read.csv(unz("csv_porsev.zip", "ss07por.csv"),stringsAsFactors = FA
 
 
 ## LU
+
 # download OR 2004 housing #
 download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_hor.zip",
               destfile = "csv_hor_2004.zip")
@@ -45,7 +46,7 @@ hor_2004 <- read.csv(unz("csv_hor_2004.zip", "ss04hor.csv"),stringsAsFactors = F
 download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_por.zip",
               destfile = "csv_por_2004.zip")
 unzip("csv_por_2004.zip", list = TRUE)
-por_2004 <- read.csv(unz("csv_por_2004.zip", "ss04por.csv"),stringsAsFactors = FALSE)[,c(4,6,59,60)]
+por_2004 <- read.csv(unz("csv_por_2004.zip", "ss04por.csv"),stringsAsFactors = FALSE)[,c(4,59,60)]
 
 
 # download OR 2003 housing #
@@ -59,9 +60,7 @@ hor_2003 <- read.csv(unz("csv_hor_2003.zip", "ss03hor.csv"),stringsAsFactors = F
 download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_por.zip",
               destfile = "csv_por_2003.zip")
 unzip("csv_por_2003.zip", list = TRUE)
-por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,5,59,60)]
-
-##test
+por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,58,59)]
 
 
 
