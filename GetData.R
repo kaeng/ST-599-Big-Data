@@ -72,6 +72,7 @@ download.file("http://www2.census.gov/acs/downloads/pums/2002/csv_hor.zip", dest
 unzip("csv_hor_2002.zip", list = TRUE)
 hor_2002 <- read.csv(unz("csv_hor_2002.zip", "ss02hor.csv"),stringsAsFactors = FALSE)[,c(2,9,56)]
 #e.g., match("SERIALNO",colnames(hor_2002))
+# COULD USE: which(names(hor_2002) %in% c(SERIALNO","ADJUST","HINCP"))
 # "SERIALNO" "ADJUST"   "HINCP"
 
 # download OR 2002 personal #
