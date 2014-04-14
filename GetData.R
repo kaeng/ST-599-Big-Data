@@ -93,5 +93,16 @@ por_2001 <- read.csv(unz("csv_por_2001.zip", "ss01por.csv"),stringsAsFactors = F
 
 
 
-## FANG WU
+## FANGWU
 
+# download OR 2000 housing #
+download.file("http://www2.census.gov/acs/downloads/pums/2000/csv_hor.zip", destfile = "csv_hor_2000.zip")
+unzip("csv_hor_2000.zip", list = TRUE)
+hor_2000 <- read.csv(unz("csv_hor_2000.zip", "ss00hor.csv"),stringsAsFactors = FALSE)[,c(2,9,56)]
+# extract data from three columns: "SERIALNO" "ADJUST" "HINCP"
+
+# download OR 2000 personal #
+download.file("http://www2.census.gov/acs/downloads/pums/2000/csv_por.zip", destfile = "csv_por_2000.zip")
+unzip("csv_por_2000.zip", list = TRUE)
+por_2002 <- read.csv(unz("csv_por_2000.zip", "ss00por.csv"),stringsAsFactors = FALSE)[,c(3,56,57)]
+# extract data from three columns: "SERIALNO" "WKHP" "WKL"
