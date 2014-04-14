@@ -61,7 +61,7 @@ download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_por.zip",
 unzip("csv_por_2003.zip", list = TRUE)
 por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,5,59,60)]
 
-
+##test
 
 
 
