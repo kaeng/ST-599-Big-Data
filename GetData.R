@@ -18,7 +18,7 @@ unzip("csv_hor.zip", list = TRUE)
 hor_twelve <- read.csv(unz("csv_hor.zip", "ss12hor.csv"),stringsAsFactors = FALSE)[,c(2,9,54)]
 
 
-## BENS
+## BEN
 # 2008-2012 Transform:
 download.file("http://www2.census.gov/acs2012_5yr/pums/csv_por.zip", 
               destfile = "csv_por.zip")
