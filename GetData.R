@@ -70,6 +70,30 @@ unzip("csv_por_2003.zip", list = TRUE)
 por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,58,59)]
 
 
+# merge hor_2004 and por_2004 #
+
+library(dplyr)
+por_2004_1 <- filter(por_2004,WKL=="1")
+household <- group_by(por_2004_1,SERIALNO)
+house_avghours <- summarise(household,avg_hours=mean(WKHP,na.rm=TRUE),n=n())
+hor_2004_1 <- hor_2004[hor_2004$SERIALNO %in% house_avghours$SERIALNO,]
+data_2004 <- cbind(hor_2004_1,avg_hours=house_avghours$avg_hours,n=house_avghours$n)
+data_2004 <- mutate(data_2004,avg_income=HINCP/n)
+
+#SERIALNO # ADJUST # HINCP # avg_hours # n # avg_income#
+
+# merge hor_2003 and por_2003 #
+por_2003_1 <- filter(por_2003,WKL=="1")
+household <- group_by(por_2003_1,SERIALNO)
+house_avghours <- summarise(household,avg_hours=mean(WKHP,na.rm=TRUE),n=n())
+hor_2003_1 <- hor_2003[hor_2003$SERIALNO %in% house_avghours$SERIALNO,]
+data_2003 <- cbind(hor_2003_1,avg_hours=house_avghours$avg_hours,n=house_avghours$n)
+data_2003 <- mutate(data_2003,avg_income=HINCP/n)
+
+#SERIALNO # ADJUST # HINCP # avg_hours # n # avg_income#
+
+
+
 ## KATIE
 
 # download OR 2002 housing #
