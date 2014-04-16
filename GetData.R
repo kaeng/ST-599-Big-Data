@@ -5,7 +5,7 @@
 # === download file === #
 # download OR 2012_5yr
 download.file("http://www2.census.gov/acs2012_5yr/pums/csv_hor.zip", 
-              destfile = "csv_hor.zip")
+              destfile = "csv_hor12.zip")
 
 
 # === unzip and get file === #
@@ -15,7 +15,7 @@ unzip("csv_hor.zip", list = TRUE)
 
 
 # extract and read in one go
-hor_twelve <- read.csv(unz("csv_hor.zip", "ss12hor.csv"),stringsAsFactors = FALSE)[,c(2,9,54)]
+hor_twelve <- read.csv(unz("csv_hor12.zip", "ss12hor.csv"),stringsAsFactors = FALSE)[,c(2,9,54)]
 
 
 ## BEN
@@ -26,8 +26,19 @@ por_twelve <- read.csv(unz("csv_por.zip", "ss12por.csv"),stringsAsFactors = FALS
 avgpor_twelve=por_twelve %.%
   group_by(SERIALNO) %.%
   filter(WKL=="1") %.%
-  summarise(avgWKHP=mean(WKHP,na.rm=TRUE))
-merge_twelve=merge(hor_twelve,avgpor_twelve,by.x = "SERIALNO",by.y = "SERIALNO")
+  summarise(avgWKHP=mean(WKHP,na.rm=TRUE),n=n())
+merge_twelve <- hor_twelve[hor_twelve$SERIALNO %in% avgpor_twelve$SERIALNO,]
+) 
+inc_codes = c("1086024"="2008",
+"1069920"="2009",
+"1061121"="2010",
+"1039508"="2011",
+"1010207"="2012")
+twelve_yr <- mutate(merge_twelve, Year = inc_codes[as.character(ADJINC)])
+data_2012 <- cbind(twelve_yr,avgpor_twelve)
+  results12=data_2012 %.%
+  group_by(Year) %.%
+  summarise(avginc=mean(HINCP,na.rm=TRUE),avgwork=mean(avgWKHP))
 
 # 2005-2007 Transform: 
 download.file("http://www2.census.gov/acs2007_3yr/pums/csv_hor.zip", 
@@ -38,8 +49,22 @@ download.file("http://www2.census.gov/acs2007_3yr/pums/csv_por.zip",
               destfile = "csv_porsev.zip")
 por_seven <- read.csv(unz("csv_porsev.zip", "ss07por.csv"),stringsAsFactors = FALSE)[,c(2,59,60)]
 
-
-
+avgpor_seven=por_seven %.%
+  group_by(SERIALNO) %.%
+  filter(WKL=="1") %.%
+  summarise(avgWKHP=mean(WKHP,na.rm=TRUE),n=n())
+merge_seven <- hor_seven[hor_seven$SERIALNO %in% avgpor_seven$SERIALNO,]
+ 
+inc_codes = c("1082467"="2005",
+              "1044488"="2006",
+              "1016787"="2007")
+seven_yr <- mutate(merge_seven, Year = inc_codes[as.character(ADJINC)])
+data_2007 <- cbind(seven_yr,avgpor_seven)
+results07=data_2007 %.%
+  group_by(Year) %.%
+  summarise(avginc=mean(HINCP,na.rm=TRUE),avgwork=mean(avgWKHP))
+x=rbind(results07,results12)
+qplot(avginc,avgwork,data=x,color=Year)
 ## LU
 
 # download OR 2004 housing #
