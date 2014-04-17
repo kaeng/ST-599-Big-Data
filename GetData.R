@@ -120,6 +120,8 @@ data_2003 <- mutate(data_2003,avg_income=HINCP/n)
 #SERIALNO # ADJUST # HINCP # avg_hours # n # avg_income#
 
 
+result_2004 <- summarise(data_2004,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
+
 
 ## KATIE
 
