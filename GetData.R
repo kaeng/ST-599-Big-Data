@@ -65,6 +65,8 @@ results07=data_2007 %.%
   summarise(avginc=mean(HINCP,na.rm=TRUE),avgwork=mean(avgWKHP))
 x=rbind(results07,results12)
 qplot(avginc,avgwork,data=x,color=Year)
+
+
 ## LU
 
 # download OR 2004 housing #
