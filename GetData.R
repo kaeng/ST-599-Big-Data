@@ -121,7 +121,7 @@ data_2003 <- mutate(data_2003,avg_income=HINCP/n)
 
 
 result_2004 <- summarise(data_2004,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
-
+result_2003 <- summarise(data_2003,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
 
 ## KATIE
 
