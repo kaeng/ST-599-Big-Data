@@ -178,8 +178,7 @@ house_aggregation <- summarise(household,avg_hours=mean(WKHP,na.rm=TRUE),high_ed
 hor_2000_1 <- hor_2000[hor_2000$SERIALNO %in% house_aggregation$SERIALNO,] 
 # merging the new household data frame with housing data based in terms of the unique SERIALNO
 data_2000 <- cbind(hor_2000_1,avg_hours=house_aggregation$avg_hours,high_edu=house_aggregation$high_edu,n=house_aggregation$n)
-# calculating household income per person
-data_2000 <- mutate(data_2000,avg_income=HINCP/n)
+
 
 # matching education level to code
 # codes from data dictionary for 2000-2002
@@ -205,3 +204,5 @@ EDU_codes <- c("bb"="N/A (less than 3 years old",
 
 # adding education codes to data frame "data_2000"
 data_2000 <- mutate(data_2000,highest_education=EDU_codes[as.character(high_edu)])
+
+result_2000 <- summarise(data_2000, avg_inc=mean(HINCP,na.rm=TRUE),avg_work=mean(avg_hours))
