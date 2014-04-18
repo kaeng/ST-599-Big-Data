@@ -69,25 +69,6 @@ qplot(avginc,avgwork,data=x,color=Year)
 
 ## LU
 # download OR 2004 housing #
-download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_hor.zip", destfile = "csv_hor_2004.zip")
-unzip("csv_hor_2004.zip", list = TRUE)
-hor_2004 <- read.csv(unz("csv_hor_2004.zip", "ss04hor.csv"),stringsAsFactors = FALSE)[,c(2,9,54)]
-
-
-
-# download OR 2004 personal #
-
-# download OR 2003 housing #
-download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_hor.zip", destfile = "csv_hor_2003.zip")
-unzip("csv_hor_2003.zip", list = TRUE)
-hor_2003 <- read.csv(unz("csv_hor_2003.zip", "ss03hor.csv"),stringsAsFactors = FALSE)[,c(2,9,54)]
-
-
-
-
-# download OR 2003 personal #
-
-# download OR 2004 housing #
 download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_hor.zip",
               destfile = "csv_hor_2004.zip")
 unzip("csv_hor_2004.zip", list = TRUE)
@@ -125,7 +106,7 @@ hor_2004_1 <- hor_2004[hor_2004$SERIALNO %in% house_avghours$SERIALNO,]
 data_2004 <- cbind(hor_2004_1,avg_hours=house_avghours$avg_hours,n=house_avghours$n)
 data_2004 <- mutate(data_2004,avg_income=HINCP/n)
 
-#SERIALNO ## ADJUST # HINCP # avg_hours # n # avg_income#
+#SERIALNO # ADJUST # HINCP # avg_hours # n # avg_income#
 
 # merge hor_2003 and por_2003 #
 por_2003_1 <- filter(por_2003,WKL=="1")
