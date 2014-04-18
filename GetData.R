@@ -125,7 +125,7 @@ hor_2004_1 <- hor_2004[hor_2004$SERIALNO %in% house_avghours$SERIALNO,]
 data_2004 <- cbind(hor_2004_1,avg_hours=house_avghours$avg_hours,n=house_avghours$n)
 data_2004 <- mutate(data_2004,avg_income=HINCP/n)
 
-#SERIALNO # ADJUST # HINCP # avg_hours # n # avg_income#
+#SERIALNO ## ADJUST # HINCP # avg_hours # n # avg_income#
 
 # merge hor_2003 and por_2003 #
 por_2003_1 <- filter(por_2003,WKL=="1")
