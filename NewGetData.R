@@ -188,3 +188,56 @@ qplot(x=YEAR,y=meanHourly,data=workingstats,colour=EDUC,geom="line")
 
 fdata7_12 %.% group_by(YEAR) %.% summarise(aver=mean(WKW,na.rm=TRUE))
 table(por_twelve$EDUC)
+
+
+
+### Lu's Get Data ###
+
+download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_por.zip",destfile = "csv_por_2004.zip")
+unzip("csv_por_2004.zip", list = TRUE)
+por_2004 <- read.csv(unz("csv_por_2004.zip", "ss04por.csv"),stringsAsFactors = FALSE)[,c(4,6,8,53,59,60,61,81)]
+
+
+download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_por.zip",destfile = "csv_por_2003.zip")
+unzip("csv_por_2003.zip", list = TRUE)
+por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,5,7,52,58,59,60,80)]
+
+
+por_2004_1 <- filter(por_2004,AGEP>15,WKL=="1")
+data_2004 <- mutate(por_2004_1,HOURLY=PINCP/(WKHP*WKW))
+
+por_2003_1 <- filter(por_2003,AGEP>15,WKL=="1")
+data_2003 <- mutate(por_2003_1,HOURLY=PINCP/(WKHP*WKW))
+
+
+Edu_codes <- c("bb"="Less than HS",
+               "1"="Less than HS",
+               "2"="Less than HS",
+               "3"="Less than HS",
+               "4"="Less than HS",
+               "5"="Less than HS",
+               "6"="Less than HS",
+               "7"="Less than HS",
+               "8"="Less than HS",
+               "9"="HS Diploma",
+               "10"="Some College",
+               "11"="Associates",
+               "12"="Associates",
+               "13"="Bachelors",
+               "14"="Advanced Degree",
+               "15"="Advanced Degree",
+               "16"="Advanced Degree")
+
+data_2004 <- mutate(data_2004, EDUC = Edu_codes[as.character(SCHL)])
+edu_group_2004 <- group_by(data_2004,EDUC)
+result_2004 <- summarise(edu_group_2004,avg=mean(HOURLY,na.rm=TRUE))
+result_2004 <- mutate(Year=2004,result_2004)
+
+data_2003 <- mutate(data_2003, EDUC = Edu_codes[as.character(SCHL)])
+edu_group_2003 <- group_by(data_2003,EDUC)
+result_2003 <- summarise(edu_group_2003,avg=mean(HOURLY,na.rm=TRUE))
+result_2003 <- mutate(Year=2003,result_2003)
+
+rbind(result_2003,result_2004)
+
+
