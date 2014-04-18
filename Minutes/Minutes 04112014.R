@@ -11,8 +11,8 @@ Ben, Lu, Katie
 # ================================
 # 1) Data Discovery Problems
 # ================================
-It was discovered that the data required to answer Fang Wus question concerning
-internet services is not avaliable in the PUMS data sets, so Fang Wus excellent
+It was discovered that the data required to answer Fang Wu's question concerning
+internet services is not avaliable in the PUMS data sets, so Fang Wu's excellent
 question could not be answered.
 
 # ================================
