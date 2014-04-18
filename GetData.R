@@ -69,25 +69,11 @@ qplot(avginc,avgwork,data=x)
 
 ## LU
 
-# download OR 2004 housing #
-download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_hor.zip",
-              destfile = "csv_hor_2004.zip")
-unzip("csv_hor_2004.zip", list = TRUE)
-hor_2004 <- read.csv(unz("csv_hor_2004.zip", "ss04hor.csv"),stringsAsFactors = FALSE)[,c(2,9,50)]
-
-
 # download OR 2004 personal #
 download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_por.zip",
               destfile = "csv_por_2004.zip")
 unzip("csv_por_2004.zip", list = TRUE)
 por_2004 <- read.csv(unz("csv_por_2004.zip", "ss04por.csv"),stringsAsFactors = FALSE)[,c(4,59,60)]
-
-
-# download OR 2003 housing #
-download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_hor.zip",
-              destfile = "csv_hor_2003.zip")
-unzip("csv_hor_2003.zip", list = TRUE)
-hor_2003 <- read.csv(unz("csv_hor_2003.zip", "ss03hor.csv"),stringsAsFactors = FALSE)[,c(2,9,50)]
 
 
 # download OR 2003 personal #
@@ -122,6 +108,27 @@ data_2003 <- mutate(data_2003,avg_income=HINCP/n)
 
 result_2004 <- summarise(data_2004,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
 result_2003 <- summarise(data_2003,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
+
+Edu_codes <- c("bb"="N/A (less than 3 years old)",
+               "1"="None",
+               "2"="Nursery school to grade 4",
+               "3"="Grade 5 or grade 6",
+               "4"="Grade 7 or grade 8",
+               "5"="Grade 9",
+               "6"="Grade 10",
+               "7"="Grade 11",
+               "8"="Grade 12 no diploma",
+               "9"="High school graduate",
+               "10"="Some college but less than 1 year",
+               "11"="One or more years of college, no degree",
+               "12"="Associate degree in college",
+               "13"="Bachelor's degree",
+               "14"="Master's degree",
+               "15"="Professional school degree",
+               "16"="Doctorate degree")
+
+
+
 
 ## KATIE
 
