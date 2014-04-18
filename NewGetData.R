@@ -240,4 +240,50 @@ result_2003 <- mutate(Year=2003,result_2003)
 
 rbind(result_2003,result_2004)
 
+# Fangwu
+
+# download OR 2000 personal #
+download.file("http://www2.census.gov/acs/downloads/pums/2000/csv_por.zip", destfile = "csv_por_2000.zip")
+unzip("csv_por_2000.zip", list = TRUE)
+por_2000 <- read.csv(unz("csv_por_2000.zip", "c2sspor.csv"),stringsAsFactors = FALSE)[,c(3,5,7,50,56,57,58,78)]
+# extract data from three columns: "SERIALNO" "ADJUST" "AGEP" "WKHP" "WKL" "WKW" "SCHL" "PINCP"
+
+library(dplyr)
+library(ggplot2)
+
+# extracting persons who is 16 years old or older
+por_2000 <- filter(por_2000,AGEP>=16)
+
+data_2000 <- mutate(por_2000,HOURLY=PINCP/(WKW*WKHP))
+
+
+
+# matching education level to code
+# codes from data dictionary for 2000-2002
+# I'm not sure the dictionary is the same for other years, please double check
+EDU_codes <- c("bb"="Less than HS",
+                "01"="Less than HS",
+                "02"="Less than HS",
+                "03"="Less than HS",
+                "04"="Less than HS",
+                "05"="Less than HS",
+                "06"="Less than HS",
+                "07"="Less than HS",
+                "08"="Less than HS",
+                "09"="HS Diploma",
+                "10"="Some Colleges",
+                "11"="Associates",
+                "12"="Associates",
+                "13"="Bachelors",
+                "14"="Advanced Degree",
+                "15"="Advanced Degree",
+                "16"="Advanced Degree")
+
+# adding education codes to data frame "data_2000"
+data_2000 <- mutate(data_2000,EDUC=EDU_codes[as.character(SCHL)])
+
+result_2000 <- data_2000%.%group_by(EDUC)%.%filter(WKL=="1")%.%summarise(HOURLY=mean(HOURLY,na.rm=TRUE))%.%mutate(Year=2000) #regular calculation
+
+result_2000_Inf <- data_2000%.%group_by(EDUC)%.%filter(WKL=="1")%.%summarise(HOURLY=mean(HOURLY,na.rm=TRUE)*1.333)%.%mutate(Year=2000) #taking inflation into consideration
+
 
