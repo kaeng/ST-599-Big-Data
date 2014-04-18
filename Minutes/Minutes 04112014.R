@@ -11,8 +11,8 @@ Ben, Lu, Katie
 # ================================
 # 1) Data Discovery Problems
 # ================================
-It was discovered that the data required to answer Fang Wus question concerning
-internet services is not avaliable in the PUMS data sets, so Fang Wus excellent
+It was discovered that the data required to answer Fang Wu's question concerning
+internet services is not avaliable in the PUMS data sets, so Fang Wu's excellent
 question could not be answered.
 
 # ================================
@@ -23,7 +23,7 @@ number of hours worked and average household income from 2000 to 2012 for OREGON
 (See example here: http://economistsview.typepad.com/economistsview/2006/02/scatterplot_of_.html)
 
 Each point on scatterplot would correspond to a one year average of the two variables.
-We might see a similar pattern in our scatterplot compared to the example pot
+We might see a similar pattern in our scatterplot compared to the example plot.
 
 Present members agree to this research question.
 
@@ -77,7 +77,7 @@ have also looked this up incorrectly. CHECK!
     - NOTE: Notice that we only have income adjustments unique for each data set.
             (e.g., We cannot get 2001 observations adjusted to 2012 dollars since 2001 data
              was collected before 2012...)
-            I propose we do not use the converstions provided by PUMS, and rather get
+            I propose we do not use the conversions provided by PUMS, and rather get
             conversion values from some outside source.
   # =============================================================================
   4) WKHP (in PERSON data file - 76th column):
