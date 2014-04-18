@@ -122,6 +122,27 @@ data_2003 <- mutate(data_2003,avg_income=HINCP/n)
 result_2004 <- summarise(data_2004,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
 result_2003 <- summarise(data_2003,avg_inc=mean(avg_income),avg_h=mean(avg_hours))
 
+Edu_codes <- c("bb"="N/A (less than 3 years old)",
+               "1"="None",
+               "2"="Nursery school to grade 4",
+               "3"="Grade 5 or grade 6",
+               "4"="Grade 7 or grade 8",
+               "5"="Grade 9",
+               "6"="Grade 10",
+               "7"="Grade 11",
+               "8"="Grade 12 no diploma",
+               "9"="High school graduate",
+               "10"="Some college but less than 1 year",
+               "11"="One or more years of college, no degree",
+               "12"="Associate degree in college",
+               "13"="Bachelor's degree",
+               "14"="Master's degree",
+               "15"="Professional school degree",
+               "16"="Doctorate degree")
+
+
+
+
 ## KATIE
 
 # download OR 2002 housing #
