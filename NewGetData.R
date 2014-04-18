@@ -74,5 +74,117 @@ qplot(YEAR,avg,data=fdatasum,group=EDUC,geom="line",color=EDUC)
 table(fdata7_12$YEAR)
 
 
+#Katie's # === OR 2001 personal ===#
+
+#download
+download.file("http://www2.census.gov/acs/downloads/pums/2001/csv_por.zip",
+              destfile = "csv_por_2001.zip")
+unzip("csv_por_2001.zip", list = TRUE)
+por_2001 <- read.csv(unz("csv_por_2001.zip", "ss01por.csv"),
+                     stringsAsFactors = FALSE)[,c(3,7,50,56,57,58,78)]
+
+por_2001 <- tbl_df(por_2001)
+
+#year variable
+por_2001$YEAR <- 2001
+
+# getting working age people, HOURLY variable
+por_2001 <- por_2001 %.% filter(AGEP>15) %.% mutate(HOURLY=PINCP/(WKW*WKHP))
+
+# education variable
+EDUC_code <- c("1"="Less than HS",
+               "2"="Less than HS",
+               "3"="Less than HS",
+               "4"="Less than HS",
+               "5"="Less than HS",
+               "6"="Less than HS",
+               "7"="Less than HS",
+               "8"="Less than HS",
+               "9"="HS Diploma",
+               "10"="Some College",
+               "11"="Associates",
+               "12"="Associates",
+               "13"="Bachelors",
+               "14"="Advanced Degree",
+               "15"="Advanced Degree",
+               "16"="Advanced Degree"
+               )
+
+por_2001 <- mutate(por_2001,EDUC=EDUC_code[SCHL])
+
+#=== OR 2002 personal ===#
+
+#download
+download.file("http://www2.census.gov/acs/downloads/pums/2002/csv_por.zip", destfile = "csv_por_2002.zip")
+unzip("csv_por_2002.zip", list = TRUE)
+por_2002 <- read.csv(unz("csv_por_2002.zip", "ss02por.csv"),
+                     stringsAsFactors = FALSE)[,c(3,7,50,56,57,58,78)]
+
+por_2002 <- tbl_df(por_2002)
+
+#year variable
+por_2002$YEAR <- 2002
+
+# filtered, hourly variable
+por_2002 <- por_2002 %.% filter(AGEP>15) %.% mutate(HOURLY=PINCP/(WKW*WKHP))
+
+# education
+por_2002 <- mutate(por_2002,EDUC=EDUC_code[SCHL])
+
+
+
+# === concatonate data === #
+
+por_0102 <- rbind(por_2001,por_2002)
+
+
+# === statistics === #
+
+# summary statistics
+
+grouped <- group_by(por_0102,EDUC,YEAR)
+
+workingprop <- sum(por_0102$WKL==1)/dim(grouped)[1]
+
+working <- filter(grouped,WKL==1)
+
+workingstats <- summarise(working,
+                   meanHourly = mean(HOURLY,na.rm=T),
+                   medHourly = median(HOURLY,na.rm=T),
+                   q1Hourly = quantile(HOURLY,.25,na.rm=T),
+                   q3Hourly = quantile(HOURLY,.75,na.rm=T),
+                   top1Hourly = quantile(HOURLY,.99,na.rm=T))
+
+
+# === converting summary stats to 2012 dollars, using CPI === #
+# http://www.bls.gov/data/inflation_calculator.htm
+
+workingstats01 <- mutate(workingstats[workingstats$YEAR==2001,],
+                           meanHourly12 = meanHourly*1.29641,
+                           medHourly12 = medHourly*1.29641,
+                           q1Hourly12 = q1Hourly*1.29641,
+                           q3Hourly12 = q3Hourly*1.29641,
+                           top1Hourly12 = top1Hourly*1.29641)
+
+workingstats02 <- mutate(workingstats[workingstats$YEAR==2002,],
+                         meanHourly12 = meanHourly*1.27623,
+                         medHourly12 = medHourly*1.27623,
+                         q1Hourly12 = q1Hourly*1.27623,
+                         q3Hourly12 = q3Hourly*1.27623,
+                         top1Hourly12 = top1Hourly*1.27623)
+
+workingstatsadj <- join()
+
+workingstats <- merge()
+
+library(ggplot2)
+
+# reorder levels from highest to lowest
+
+qplot(x=YEAR,y=meanHourly,data=workingstats,colour=EDUC,geom="line")
+
+
+
+
 fdata7_12 %.% group_by(YEAR) %.% summarise(aver=mean(WKW,na.rm=TRUE))
 table(por_twelve$EDUC)
