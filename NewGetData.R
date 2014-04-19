@@ -1,5 +1,5 @@
 # Get datasetss
-
+# Ben: 
 download.file("http://www2.census.gov/acs2012_5yr/pums/csv_por.zip", 
               destfile = "csv_por.zip")
 por_twelve <- read.csv(unz("csv_por.zip", "ss12por.csv"),
@@ -77,5 +77,6 @@ table(fdata7_12$YEAR)
 fdata7_12 %.% group_by(YEAR) %.% summarise(aver=mean(WKW,na.rm=TRUE))
 table(por_twelve$EDUC)
 
+#Plot coded
 qplot(YEAR,HOURLY,data=proj,group=EDUC,geom="line",color=EDUC) + 
   geom_line(aes(y=HOURLY*inlation),linetype="dotted")
