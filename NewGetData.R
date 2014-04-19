@@ -76,3 +76,6 @@ table(fdata7_12$YEAR)
 
 fdata7_12 %.% group_by(YEAR) %.% summarise(aver=mean(WKW,na.rm=TRUE))
 table(por_twelve$EDUC)
+
+qplot(YEAR,HOURLY,data=proj,group=EDUC,geom="line",color=EDUC) + 
+  geom_line(aes(y=HOURLY*inlation),linetype="dotted")
