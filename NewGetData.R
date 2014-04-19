@@ -80,3 +80,6 @@ table(por_twelve$EDUC)
 #Plot coded
 qplot(YEAR,HOURLY,data=proj,group=EDUC,geom="line",color=EDUC) + 
   geom_line(aes(y=HOURLY*inlation),linetype="dotted")
+
+
+## Lu
