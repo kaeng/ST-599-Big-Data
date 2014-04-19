@@ -83,3 +83,44 @@ qplot(YEAR,HOURLY,data=proj,group=EDUC,geom="line",color=EDUC) +
 
 
 ## Lu
+
+download.file("http://www2.census.gov/acs/downloads/pums/2004/csv_por.zip",destfile = "csv_por_2004.zip")
+unzip("csv_por_2004.zip", list = TRUE)
+por_2004 <- read.csv(unz("csv_por_2004.zip", "ss04por.csv"),stringsAsFactors = FALSE)[,c(4,6,8,53,59,60,61,81)]
+
+
+download.file("http://www2.census.gov/acs/downloads/pums/2003/csv_por.zip",destfile = "csv_por_2003.zip")
+unzip("csv_por_2003.zip", list = TRUE)
+por_2003 <- read.csv(unz("csv_por_2003.zip", "ss03por.csv"),stringsAsFactors = FALSE)[,c(4,5,7,52,58,59,60,80)]
+
+Edu_codes <- c("bb"="Less than HS",
+               "1"="Less than HS",
+               "2"="Less than HS",
+               "3"="Less than HS",
+               "4"="Less than HS",
+               "5"="Less than HS",
+               "6"="Less than HS",
+               "7"="Less than HS",
+               "8"="Less than HS",
+               "9"="HS Diploma",
+               "10"="Some College",
+               "11"="Associates",
+               "12"="Associates",
+               "13"="Bachelors",
+               "14"="Advanced Degree",
+               "15"="Advanced Degree",
+               "16"="Advanced Degree")
+
+
+por_2004 <- mutate(Year=2004,por_2004)
+por_2003 <- mutate(Year=2003,por_2003)
+por_0304 <- rbind(por_2003,por_2004)
+
+por_0304_1 <- filter(por_0304,AGEP>15,WKL=="1")
+data_0304 <- mutate(por_0304_1,HOURLY=PINCP/(WKHP*WKW),EDUC = Edu_codes[as.character(SCHL)])
+
+edu_group_0304 <- group_by(data_0304,Year,EDUC)
+result_0304 <- summarise(edu_group_0304,avg=mean(HOURLY,na.rm=TRUE))
+
+qplot(Year,avg,data=result_0304,group=EDUC,geom="line",color=EDUC)
+
