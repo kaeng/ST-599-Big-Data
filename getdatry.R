@@ -70,7 +70,15 @@ data7_12 = rbind(por_twelve,por_seven)
 fdata7_12 = data7_12 %.% filter(AGEP>15,WKL==1) %.% mutate(HOURLY=PINCP/(WKW*WKHP))
 fdatasum = fdata7_12 %.% group_by(YEAR,EDUC) %.% summarise(avg=mean(HOURLY,na.rm=TRUE))
 
-qplot(YEAR,avg,data=fdatasum,group=EDUC,geom="line",color=EDUC)
+fdatasum = fdatasum %.% filter(EDUC != "NA" )
+d0=fdatasum
+head(d0)
+head(d1)
+head(d2)
+head(d3)
+final = data.frame(YEAR=c(d0$YEAR,d1$YEAR,d2$YEAR,d3$YEAR),EDUC=c(d0$EDUC,as.character(d1$EDUC),as.character(d2$EDUC),as.character(d3$EDUC)), HOURLY=c(d0$avg,d1$meanHourly,d2$HOURLY,d3$HOURLY))
+final=final[-(79:88),]
+qplot(YEAR,HOURLY,data=final,group=EDUC,geom="line",color=EDUC)
 table(fdata7_12$YEAR)
 
 
