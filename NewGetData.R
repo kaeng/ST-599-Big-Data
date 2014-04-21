@@ -124,3 +124,47 @@ result_0304 <- summarise(edu_group_0304,avg=mean(HOURLY,na.rm=TRUE))
 
 qplot(Year,avg,data=result_0304,group=EDUC,geom="line",color=EDUC)
 
+
+## Fangwu
+# download OR 2000 personal #
+download.file("http://www2.census.gov/acs/downloads/pums/2000/csv_por.zip", destfile = "csv_por_2000.zip")
+unzip("csv_por_2000.zip", list = TRUE)
+por_2000 <- read.csv(unz("csv_por_2000.zip", "c2sspor.csv"),stringsAsFactors = FALSE)[,c(3,5,7,50,56,57,58,78)]
+# extract data from eight columns
+
+library(dplyr)
+library(ggplot2)
+
+# extracting persons who is 16 years old or older
+por_2000 <- filter(por_2000,AGEP>=16)
+
+data_2000 <- mutate(por_2000,HOURLY=PINCP/(WKW*WKHP))
+
+
+# matching education level to code
+# codes from data dictionary for 2000-2002
+EDU_codes <- c("bb"="Less than HS",
+                "1"="Less than HS",
+                "2"="Less than HS",
+                "3"="Less than HS",
+                "4"="Less than HS",
+                "5"="Less than HS",
+                "6"="Less than HS",
+                "7"="Less than HS",
+                "8"="Less than HS",
+                "9"="HS Diploma",
+                "10"="Some Colleges",
+                "11"="Associates",
+                "12"="Associates",
+                "13"="Bachelors",
+                "14"="Advanced Degree",
+                "15"="Advanced Degree",
+                "16"="Advanced Degree")
+
+# adding education codes to data frame "data_2000"
+data_2000 <- mutate(data_2000,EDUC=EDU_codes[as.character(SCHL)])
+
+result_2000 <- data_2000%.%group_by(EDUC)%.%filter(WKL=="1")%.%summarise(HOURLY=mean(HOURLY,na.rm=TRUE))%.%mutate(Year=2000) #regular calculation
+
+result_2000_Inf <- data_2000%.%group_by(EDUC)%.%filter(WKL=="1")%.%summarise(HOURLY=mean(HOURLY,na.rm=TRUE)*1.333)%.%mutate(Year=2000) #taking inflation into consideration
+
