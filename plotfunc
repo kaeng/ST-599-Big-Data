@@ -1,0 +1,362 @@
+# ====== FUNCTION FOR 12 YEARS OF DATA  ====== #
+
+# You will need these packages
+library(ggplot2)
+library(dplyr)
+source("http://peterhaschke.com/Code/multiplot.R")
+
+
+# discovery: codes switched in al and ak (.csv file state abbrv does not match .zip file name abbrv)
+# don't use
+
+plotfunc <- function(st){
+
+#############################################
+#FangWu's 2000?
+
+  #download
+  download.file(paste("http://www2.census.gov/acs/downloads/pums/2000/csv_p",st,".zip",sep=""),
+                destfile = paste("csv_p",st,"_2000.zip",sep=""))
+  unzip(paste("csv_p",st,"_2000.zip",sep=""), list = TRUE)
+  data_2000 <- read.csv(unz(paste("csv_p",st,"_2000.zip",sep=""), paste("c2ssp",st,".csv",sep="")),
+                        stringsAsFactors = FALSE)[,c(3,7,50,56,57,58,78)]
+  
+  data_2000 <- tbl_df(data_2000)
+  
+  #year variable
+  data_2000$YEAR <- 2000
+  
+  # getting working age people, HOURLY variable
+  data_2000 <- data_2000 %.% filter(AGEP>15) %.% mutate(HOURLY=PINCP/(WKW*WKHP))
+  
+  # education variable
+  EDUC_code <- c("1"="Less than HS",
+                 "2"="Less than HS",
+                 "3"="Less than HS",
+                 "4"="Less than HS",
+                 "5"="Less than HS",
+                 "6"="Less than HS",
+                 "7"="Less than HS",
+                 "8"="Less than HS",
+                 "9"="HS Diploma",
+                 "10"="Some College",
+                 "11"="Associates",
+                 "12"="Associates",
+                 "13"="Bachelors",
+                 "14"="Advanced Degree",
+                 "15"="Advanced Degree",
+                 "16"="Advanced Degree"
+  )
+  
+  data_2000 <- data_2000 %.% mutate(EDUC=EDUC_code[SCHL]) %.% filter(!is.na(EDUC))
+  
+  grouped00 <- group_by(data_2000,YEAR,EDUC)
+  
+  workingprop00 <- summarise(grouped00,
+                               total = n(),
+                               working = sum(WKL==1),
+                               prop = working/total)
+  
+  data2000 <- filter(data_2000,WKL=="1")
+  
+  
+  result2000 <- data2000 %.% group_by(YEAR,EDUC) %.% 
+    summarise(avg=mean(HOURLY,na.rm=TRUE))
+  
+################################################
+# Katie's 2001 - 2002
+
+  # === Download population data 2001 === #
+  
+  #download
+  download.file(paste("http://www2.census.gov/acs/downloads/pums/2001/csv_p",st,".zip",sep=""),
+                destfile = paste("csv_p",st,"_2001.zip",sep=""))
+  unzip(paste("csv_p",st,"_2001.zip",sep=""), list = TRUE)
+  data_2001 <- read.csv(unz(paste("csv_p",st,"_2001.zip",sep=""), paste("ss01p",st,".csv",sep="")),
+                        stringsAsFactors = FALSE)[,c(3,7,50,56,57,58,78)]
+  
+  data_2001 <- tbl_df(data_2001)
+  
+  #year variable
+  data_2001$YEAR <- 2001
+  
+  # getting working age people, HOURLY variable
+  data_2001 <- data_2001 %.% filter(AGEP>15) %.% mutate(HOURLY=PINCP/(WKW*WKHP))
+  
+  # education variable
+  EDUC_code <- c("1"="Less than HS",
+                 "2"="Less than HS",
+                 "3"="Less than HS",
+                 "4"="Less than HS",
+                 "5"="Less than HS",
+                 "6"="Less than HS",
+                 "7"="Less than HS",
+                 "8"="Less than HS",
+                 "9"="HS Diploma",
+                 "10"="Some College",
+                 "11"="Associates",
+                 "12"="Associates",
+                 "13"="Bachelors",
+                 "14"="Advanced Degree",
+                 "15"="Advanced Degree",
+                 "16"="Advanced Degree"
+  )
+  
+  data_2001 <- data_2001 %.% mutate(EDUC=EDUC_code[SCHL]) %.% filter(!is.na(EDUC))
+  
+  # === Download population data 2002 === #
+  
+  #download
+  download.file(paste("http://www2.census.gov/acs/downloads/pums/2002/csv_p",st,".zip",sep=""),
+                destfile = paste("csv_p",st,"_2002.zip",sep=""))
+  unzip(paste("csv_p",st,"_2002.zip",sep=""), list = TRUE)
+  data_2002 <- read.csv(unz(paste("csv_p",st,"_2002.zip",sep=""), paste("ss02p",st,".csv",sep="")),
+                        stringsAsFactors = FALSE)[,c(3,7,50,56,57,58,78)]
+  
+  data_2002 <- tbl_df(data_2002)
+  
+  #year variable
+  data_2002$YEAR <- 2002
+  
+  # filtered, hourly variable
+  data_2002 <- data_2002 %.% filter(AGEP>15) %.% mutate(HOURLY=PINCP/(WKW*WKHP))
+  
+  # education
+  data_2002 <- data_2002 %.% mutate(EDUC=EDUC_code[SCHL]) %.% filter(!is.na(EDUC))
+  
+  
+  
+  # === concatonate data === #
+  
+  data_0102 <- rbind(data_2001,data_2002)
+  
+  
+  # === statistics === #
+  
+  # summary statistics
+  
+  grouped <- group_by(data_0102,YEAR,EDUC)
+  
+  workingprop <- summarise(grouped,
+                           total = n(),
+                           working = sum(WKL==1),
+                           prop = working/total)
+  
+  
+  working <- filter(grouped,WKL==1)
+  
+  workingstats <- summarise(working, avg = mean(HOURLY,na.rm=T))
+  
+
+  
+############################################
+# Lu's 2003 - 2004
+
+# === 2003 data
+
+download.file(paste("http://www2.census.gov/acs/downloads/pums/2003/csv_p",st,".zip",sep=""),
+              destfile = paste("csv_p",st,"_2003.zip",sep=""))
+unzip(paste("csv_p",st,"_2003.zip",sep=""), list = TRUE)
+data_2003 <- read.csv(unz(paste("csv_p",st,"_2003.zip",sep=""), paste("ss03p",st,".csv",sep="")),
+                      stringsAsFactors = FALSE)[,c(4,5,7,52,58,59,60,80)]
+
+data_2003 <- tbl_df(data_2003)
+
+# ==== 2004 data
+download.file(paste("http://www2.census.gov/acs/downloads/pums/2004/csv_p",st,".zip",sep=""),
+              destfile = paste("csv_p",st,"_2004.zip",sep=""))
+unzip(paste("csv_p",st,"_2004.zip",sep=""), list = TRUE)
+data_2004 <- read.csv(unz(paste("csv_p",st,"_2004.zip",sep=""), paste("ss04p",st,".csv",sep="")),
+                      stringsAsFactors = FALSE)[,c(4,6,8,53,59,60,61,81)]
+
+data_2004 <- tbl_df(data_2004)
+
+
+Edu_codes <- c("bb"="Less than HS",
+               "1"="Less than HS",
+               "2"="Less than HS",
+               "3"="Less than HS",
+               "4"="Less than HS",
+               "5"="Less than HS",
+               "6"="Less than HS",
+               "7"="Less than HS",
+               "8"="Less than HS",
+               "9"="HS Diploma",
+               "10"="Some College",
+               "11"="Associates",
+               "12"="Associates",
+               "13"="Bachelors",
+               "14"="Advanced Degree",
+               "15"="Advanced Degree",
+               "16"="Advanced Degree")
+
+
+data_2004 <- mutate(data_2004,YEAR=2004)
+data_2003 <- mutate(data_2003,YEAR=2003)
+data_0304 <- rbind(data_2003,data_2004)
+
+data_0304 <- filter(data_0304,AGEP>15)
+
+data_0304 <- mutate(data_0304,HOURLY=PINCP/(WKHP*WKW),EDUC = Edu_codes[as.character(SCHL)])
+
+data_0304 <- filter(data_0304,!is.na(EDUC))
+
+grouped0304 <- group_by(data_0304,YEAR,EDUC)
+
+workingprop0304 <- summarise(grouped0304,
+                         total = n(),
+                         working = sum(WKL==1),
+                         prop = working/total)
+
+data_0304_1 <- filter(data_0304,WKL=="1")
+
+
+edu_group_0304 <- group_by(data_0304_1,YEAR,EDUC)
+result_0304 <- summarise(edu_group_0304,avg=mean(HOURLY,na.rm=TRUE))
+
+
+  
+##########################################
+# Ben's 2007 and 2012 data sets
+
+# codes for later
+inc_codes12 = c("1086024"="2008",
+                "1069920"="2009",
+                "1061121"="2010",
+                "1039508"="2011",
+                "1010207"="2012")
+educ_codes7 = c("1" = "Less than HS",
+                "2" = "Less than HS",
+                "3" = "Less than HS",
+                "4" = "Less than HS",
+                "5" = "Less than HS",
+                "6" = "Less than HS",
+                "7" = "Less than HS",
+                "8" = "Less than HS",
+                "9" = "HS Diploma",
+                "10" = "Some College",
+                "11" = "Some College",
+                "12" = "Associates",
+                "13" = "Bachelors",
+                "14" = "Advanced Degree",
+                "15" = "Advanced Degree",
+                "16" = "Advanced Degree")
+educ_codes12 = c("01" = "Less than HS",
+                 "02" = "Less than HS",
+                 "03" = "Less than HS",
+                 "04" = "Less than HS",
+                 "05" = "Less than HS",
+                 "06" = "Less than HS",
+                 "07" = "Less than HS",
+                 "08" = "Less than HS",
+                 "09" = "Less than HS",
+                 "10" = "Less than HS",
+                 "11" = "Less than HS",
+                 "12" = "Less than HS",
+                 "13" = "Less than HS",
+                 "14" = "Less than HS",
+                 "15" = "Less than HS",
+                 "16" = "HS Diploma",
+                 "17" = "HS Diploma",
+                 "18" = "Some College",
+                 "19" = "Some College",
+                 "20" = "Associates",
+                 "21" = "Bachelors",
+                 "22" = "Advanced Degree",
+                 "23" = "Advanced Degree",
+                 "24" = "Advanced Degree")
+inc_WKW = c("1"= 51,
+            "2"= 48.5,
+            "3"=43.5,
+            "4"=33,
+            "5"=20,
+            "6"=6.5)
+
+# 2007 data
+download.file(paste("http://www2.census.gov/acs2007_3yr/pums/csv_p",st,".zip",sep=""), 
+              destfile = paste("csv_p",st,"_2007.zip",sep=""))
+data_seven <- read.csv(unz(paste("csv_p",st,"_2007.zip",sep=""), paste("ss07p",st,".csv",sep="")),stringsAsFactors = FALSE)[,c(2,6,8,53,59,60,61,86)]
+
+data_seven <- tbl_df(data_seven)
+
+inc_codes7 = c("1082467"="2005",
+               "1044488"="2006",
+               "1016787"="2007")
+data_seven <- mutate(data_seven, YEAR = inc_codes7[as.character(ADJINC)], EDUC = educ_codes7[as.character(SCHL)])
+
+
+
+# 2012 data
+download.file(paste("http://www2.census.gov/acs2012_5yr/pums/csv_p",st,".zip",sep=""), 
+              destfile = paste("csv_p",st,"_2012.zip",sep=""))
+data_twelve <- read.csv(unz(paste("csv_p",st,"_2012.zip",sep=""), paste("ss12p",st,".csv",sep="")),
+                       stringsAsFactors = FALSE)[,c(2,7,9,70,76,77,78,112)]
+
+data_twelve <- tbl_df(data_twelve)
+
+
+data_twelve <- mutate(data_twelve, YEAR = inc_codes12[as.character(ADJINC)], EDUC = educ_codes12[as.character(SCHL)],WKW=(inc_WKW[(WKW)]))
+
+
+data7_12 = rbind(data_twelve,data_seven) %.% filter(AGEP>15,!is.na(EDUC)) %.% mutate(HOURLY=PINCP/(WKHP*WKW))
+
+
+
+grouped7_12 <- group_by(data7_12,YEAR,EDUC)
+
+workingprop0712 <- summarise(grouped7_12,
+                             total = n(),
+                             working = sum(WKL==1),
+                             prop = working/total)
+
+data7_12_1 <- filter(data7_12,WKL=="1")
+
+
+result7_12_1 <- data7_12_1 %.% group_by(YEAR,EDUC) %.% 
+  summarise(avg=mean(HOURLY,na.rm=TRUE)) 
+
+
+#####################################
+# combining summary statistics
+
+# Combine all means (and adj for inflation to 2012 dollars), props working data together
+avgs <- rbind(result2000,workingstats,result_0304,result7_12_1)
+
+avgs <- cbind(avgs,
+               multiplier = rep(c(1.33330,1.29641,1.27623,1.24779,1.21543,
+                                  1.17560,1.13886,1.10732,1.06638,1.07018,
+                                  1.05291,1.02069,1),each=6))
+avgs <- mutate(avgs,avgAdj = avg*multiplier)
+
+
+props <- rbind(workingprop00,workingprop,workingprop0304,workingprop0712)
+
+
+############################################
+# Plots
+  
+  #educ into factor
+  avgs$EDUCF <- factor(avgs$EDUC,
+                                  levels=c('Advanced Degree','Bachelors','Associates','Some College','HS Diploma',
+                                           'Less than HS'))
+  
+  props$EDUCF <- factor(props$EDUC,
+                              levels=c('Advanced Degree','Bachelors','Associates','Some College','HS Diploma',
+                                       'Less than HS'))
+ 
+  # plots for wage by year no top1 percent
+  q0 <- qplot(y=avgAdj,x=YEAR,data=avgs,group=EDUCF,colour=EDUCF,geom=c("line"),
+              ylab="Average Hourly Wage (2012 USD)",xlab="",
+              main=paste(toupper(st),"Longitudinal Income"))
+  
+  # percent working
+  q2 <- qplot(y=prop,x=YEAR,data=props,group=EDUCF,colour=EDUCF,geom=c("line"),
+              ylab="% Working in Past Year",xlab="",main=paste(toupper(st),"Longitudinal Employment"))
+  
+  
+  # actually plotting
+  
+  multiplot(q0,q2,cols=1)
+
+####################################
+}
